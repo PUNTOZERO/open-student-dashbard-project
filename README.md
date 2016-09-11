@@ -14,5 +14,4 @@ The Student Success Dashboard is a student‐level data aggregation tool enablin
 -  Helps drive data-informed decision making for schools, districts, partners, funders, and other education stakeholders 
 
 ##License
-
-Creative commons 
+Creative commons cc:by-nc-sa

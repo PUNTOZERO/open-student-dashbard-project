@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="Autor" content="Fabrizio Terzi"/>
+    <meta name="description" content="Open Student|Dashboard - Part of - Coursera 2016 Responsive Web Design MOOC  "/>
+    <meta name="keywords" content="Dashboard, Bootrasp,Responsive Web Design"/>
+<head>
+ 
+  <script src="js/jquery-2.1.4.min.js"></script>
+  <script src="js/handlebars-v3.0.3.js"></script>
+
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/AnimalsData.js"></script>
+  <script src="js/assignment.js"></script>
+
+    <link href="css/bootstrap_castom.css" rel="stylesheet">
+  <link href="css/assignment.css" rel="stylesheet">   
+  
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- start collapsed navbar-->
+            <div class="navbar-header">
+                <button
+                        type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse"
+                        data-target="#main_navbar"
+                        aria-expanded="false"
+                        >Menu</button>
+            </div><!-- / collapsed navbar-->
+            <!-- start un-collapsed navbar-->
+            <div class="collapse navbar-collapse" 
+                 id="main_navbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="galleria.html">Resourses</a></li>
+                    <li class="active"><a href="assigment.html">Assigment</a></li>
+                </ul>
+            </div><!-- / un-collapsed navbar-->
+        </div> <!-- /container -->
+    </nav>
+    <div class="container">
+
+      <!-- A navigation menu that selects different views -->
+      <ul class="nav nav-tabs">
+        <li role="" class="active"><a href="#" id="category-tab" >Animal Categories</a></li>
+        <li role=""><a href="#" id="animals-tab" >Animals </a></li>
+        <li role=""><a href="#" id="slideshow-tab" >Category Slideshow</a></li>
+      </ul>
+      <br/><br/>     
+      
+      <!-- the content section is empty as we will fill it 
+            via javascript and templates -->
+      <div id="content"  class="container-fluid"  role="main">
+      </div>      
+      <br/><br/>
+      
+      <div align="center">
+          <!-- Footer -->
+          <hr>
+          <footer>
+              <div class="row">
+                  <div class="col-sm-12">
+                      <p class="text-center">Part of the MOOC Coursera 2016 <strong><a href="https://www.coursera.org/learn/responsive-web-design"> Responsive Web Design</a> </strong> <a href="http://fabrizioterzi.eu"> BY: Fabrizio Terzi</a> </p>
+                      <div class="text-center">
+                          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licenza Creative Commons" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+                      </div>
+                  </div>
+              </div>
+          </footer> 
+      </div>
+      
+  </div> <!-- / container -->
+
+<!-- Here are the Templates -->
+
+<!-- this is the template for the category view -->
+<!-- It displays the categories in a bootstrap grid format 
+     Each category is displayed with a name and thumbnail image of the first image of the first animal-->
+
+<script id="category-template" type="text/x-handlebars-template">
+
+  <h4>Click on an image to learn more</h4>
+  <br/><br/>
+  
+  <div class="row">
+
+    {{#each category}}
+    <div class="col-xs-12 col-md-4"> 
+        <div class="animal-category"  data-id="{{@index}}">    
+        
+          <div class="panel panel-primary">
+            <div class="panel-heading">{{name}}</div>
+            <div class="panel-body">
+              {{#each animals}}
+                {{#if @first}}
+                  <img class="img-responsive" src="{{image1}}" alt=""/>
+                {{/if}}
+              {{/each}}          
+            </div>
+          </div>                
+          
+         </div>
+    </div> <!-- / col -->
+
+    {{/each}}
+
+  </div> <!-- / row -->
+</script>
+
+<!-- this is the template for the animals view of a single category -->
+<!-- 
+
+    Each animals is displayed with name and image
+-->
+<script id="animals-template" type="text/x-handlebars-template">
+  
+  <h4>
+    <u><div align="center" class="results"></div></u>
+    Click on an image to learn more
+  </h4>  
+  
+  <div class="row">
+    <!-- xs-12 : small display shows a single column (taking up 12 grid columns)-->
+    <!-- md-6 : medium and up displays use 3 grid columns per column -->
+
+    {{#each animals}}
+    <div class="col-xs-12 col-md-6"> 
+     <div class="animal-thumbnail"  data-id="{{@index}}">
+          
+          <div class="panel panel-primary">
+            <div class="panel-heading">{{name}}</div>
+            <div class="panel-body">
+              <img class="img-responsive" src="{{image1}}" alt=""/> 
+            </div>
+          </div>
+
+      </div>       
+    </div> <!-- / col -->
+    {{/each}}
+
+  </div> <!-- / row -->
+</script>
+
+<!-- this is the template for the view a single animal -->
+<!-- 
+    It is displayed as its name, images and description
+-->
+<script id="animal-template" type="text/x-handlebars-template">
+  <div class="row">
+    <div class="col-xs-12 col-md-12"> 
+    
+      <h3>{{name}}</h3>
+      <img class="img-thumbnail" src="{{image1}}" alt="{{name}} Image"/> 
+      <img class="img-thumbnail" src="{{image2}}" alt="{{name}} Image"/> 
+      <br/><br/>
+      <p>{{description}}</p>
+      
+    </div> <!-- / col -->
+  </div> <!-- / row -->
+</script>
+
+<!-- this is the template for the slideshow view of a single album -->
+<!-- 
+    It uses the carousel view, which is quite complex, see my lecture for details
+-->
+<script id="slideshow-template" type="text/x-handlebars-template">
+  <h4>
+    <u><div align="center" class="results"></div></u>
+  </h4>
+<div align="center">
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+        <ol class="carousel-indicators">
+        
+          {{#each animals}}
+            <li data-target="#carousel-example-generic" data-slide-to="{{@index}}" {{#if @first}}class ="active"{{/if}}></li>          
+          {{/each}}
+
+        </ol>
+  
+       <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+
+          {{#each animals}}
+            <div class="item {{#if @first}}active{{/if}}">
+             <img class="img-responsive center-block" src="{{image1}}" alt="{{name}} Image"/> 
+              <div class="carousel-caption">
+                <div class="name">
+                  <h3>{{name}}</h3>
+                </div>
+              </div>
+            </div> <!-- / carousel item -->                     
+          {{/each}}
+
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div><!-- / carousel --> 
+    </div> <!-- / col -->
+  </div> <!-- / row -->
+</div> <!-- / Center align -->  
+</script>
+
+</body>
